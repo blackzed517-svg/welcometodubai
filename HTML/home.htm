@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DUbaiQuest — home · luxury grid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-dark: #0f0f0f; --bg-card: #1a1a1a; --yellow-glow: #ffd700;
+      --yellow-soft: #ffed4e; --text-light: #f5f5f5; --text-muted: #b0b0b0;
+      --shadow-glow: 0 0 30px rgba(255,215,0,0.5);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    .glass {
+      background: rgba(26,26,26,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,215,0,0.15);
+      border-bottom: 1px solid rgba(255,215,0,0.3);
+    }
+    .logo {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--yellow-glow), var(--yellow-soft));
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+      text-shadow: var(--shadow-glow);
+      letter-spacing: -0.02em;
+    }
+    .navbar {
+      position: fixed; top: 1rem; left: 50%; transform: translateX(-50%);
+      width: 90%; max-width: 1300px; padding: 1rem 2.5rem;
+      border-radius: 60px; z-index: 1000;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-menu { display: flex; gap: 3rem; list-style: none; }
+    .nav-link {
+      color: var(--text-light); text-decoration: none; font-weight: 600;
+      padding: 0.5rem 0; position: relative;
+      transition: all 0.2s;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0%;
+      height: 2px; background: var(--yellow-glow); box-shadow: var(--shadow-glow);
+      transition: width 0.2s;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .hamburger {
+      display: none; font-size: 2.5rem; background: transparent;
+      border: none; color: var(--yellow-glow); cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed; top: 80px; left: 0; width: 100%;
+        background: rgba(26,26,26,0.98); backdrop-filter: blur(20px);
+        flex-direction: column; align-items: center; gap: 2rem;
+        padding: 2rem 0; transform: translateY(-150%);
+        transition: transform 0.4s ease-out;
+        border-bottom: 2px solid var(--yellow-glow);
+        box-shadow: var(--shadow-glow); z-index: 999;
+      }
+      .nav-menu.active { transform: translateY(0); }
+      .hamburger { display: block; }
+      .navbar { padding: 1rem 1.8rem; }
+    }
+    main { padding-top: 100px; min-height: 80vh; }
+    .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
+    .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; }
+    .fade-item { opacity: 0; transform: translateY(40px); transition: opacity 0.8s, transform 0.8s; }
+    .fade-item.visible { opacity: 1; transform: translateY(0); }
+    .hero h1 { font-size: clamp(3rem, 10vw, 5.5rem); text-shadow: var(--shadow-glow); }
+    .hero p { font-size: 1.4rem; color: var(--text-muted); max-width: 700px; }
+    .btn-glow {
+      background: transparent; border: 2px solid var(--yellow-glow); color: var(--yellow-glow);
+      padding: 1rem 2.8rem; border-radius: 60px; font-weight: 700; font-size: 1.2rem;
+      cursor: pointer; box-shadow: 0 0 15px rgba(255,215,0,0.2);
+      transition: all 0.25s; width: fit-content;
+    }
+    .btn-glow:hover {
+      background: var(--yellow-glow); color: #000;
+      box-shadow: 0 0 40px var(--yellow-glow); transform: scale(1.03);
+    }
+
+    /* ===== UPDATED CARD GRID STYLES ===== */
+    .section-title {
+      font-size: 2.5rem;
+      margin: 3rem 0 1.5rem;
+      background: linear-gradient(135deg, #fff, var(--yellow-soft));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin: 2rem 0 4rem;
+    }
+
+    @media (max-width: 1024px) {
+      .card-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .card-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 28px;
+      padding: 1.8rem 1.8rem 2rem 1.8rem;
+      border: 1px solid rgba(255,215,0,0.1);
+      box-shadow: 0 20px 30px -10px #000;
+      transition: transform 0.25s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+      will-change: transform;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .card:hover { 
+      transform: translateY(-8px) scale(1.02); 
+      box-shadow: 0 30px 40px -10px rgba(255,215,0,0.3);
+      border-color: rgba(255,215,0,0.3);
+    }
+
+    .card::after {
+      content: ''; 
+      position: absolute; 
+      top: 0; 
+      left: -150%; 
+      width: 200%; 
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,215,0,0.12), transparent);
+      transition: left 0.7s ease; 
+      pointer-events: none;
+    }
+
+    .card:hover::after { left: 100%; }
+
+    /* Image container - perfect fit for grid */
+    .card-image {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #2c2c2c;
+      margin-bottom: 1.2rem;
+      border: 1px solid rgba(255,215,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-image img {
+      transform: scale(1.08);
+    }
+
+    /* Image error fallback */
+    .card-image.image-missing {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #2c2c2c;
+    }
+
+    .card-image.image-missing::before {
+      content: "✨ Exclusive visual";
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      opacity: 0.7;
+      text-align: center;
+    }
+
+    .card-image img[src=""],
+    .card-image img:not([src]),
+    .card-image img[style*="display: none"] {
+      display: none;
+    }
+
+    .card h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    /* Staggered animation delays for cards */
+    .card:nth-child(1) { transition-delay: 0.1s; }
+    .card:nth-child(2) { transition-delay: 0.2s; }
+    .card:nth-child(3) { transition-delay: 0.3s; }
+
+    footer {
+      background: #0a0a0a; border-top: 1px solid rgba(255,215,0,0.2);
+      padding: 2rem; text-align: center; color: var(--text-muted); margin-top: 4rem;
+    }
+    .social-links a {
+      color: var(--yellow-soft); font-size: 1.6rem; margin: 0 0.75rem;
+      transition: all 0.2s; display: inline-block;
+      text-decoration: none;
+    }
+    .social-links a:hover { transform: translateY(-4px) scale(1.1); text-shadow: var(--shadow-glow); }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar glass">
+      <div class="logo">DUbaiQuest</div>
+      <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/HTML/home.htm" class="nav-link active" aria-current="page">Home</a></li>
+        <li><a href="/HTML/about.htm" class="nav-link">About</a></li>
+        <li><a href="/HTML/contact.htm" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- hero scroll fade-up -->
+      <section class="hero">
+        <h1 class="fade-item" id="heroTitle">Habibi!, Welcome to Dubai<span style="color:var(--yellow-glow)">.</span></h1>
+        <p class="fade-item" id="heroSub">Curated Dubai experiences, beyond imagination</p>
+        <div class="fade-item" id="heroCta"><button class="btn-glow"><a href="about.htm" style="color: #f5f5f5; text-decoration:none;">Explore</a></button></div>
+      </section>
+
+      <!-- attraction cards - UPDATED GRID WITH PROPER IMAGE STRUCTURE -->
+      <h2 class="section-title fade-item">Signature escapes</h2>
+      <div class="card-grid" id="cardContainer">
+        <!-- Card 1 -->
+        <div class="card fade-item">
+          <div class="card-image">
+            <img src="/images/Dinner in the Sky Is the EPIC Adventure That Suspends You Hundreds of Feet in the Air.jpg" 
+                 alt="Dinner in the Sky Dubai" 
+                 width="400" 
+                 height="300"
+                 onerror="this.style.display='none'; this.parentElement.classList.add('image-missing');">
+          </div>
+          <h3>Royal At.mosphere</h3>
+          <p>Dining 442m above · Burj Khalifa</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card fade-item">
+          <div class="card-image">
+            <img src="/images/Atlantis The Royal - Terrace.jpg" 
+                 alt="Atlantis The Royal Terrace" 
+                 width="400" 
+                 height="300"
+                 onerror="this.style.display='none'; this.parentElement.classList.add('image-missing');">
+          </div>
+          <h3>Atlantis private terrace</h3>
+          <p>Infinity edge sunset · Royal experience</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card fade-item">
+          <div class="card-image">
+            <img src="/images/An Iconic Dubai Hen Do_Bachelorette_ Ideas & Itinerary.jpg" 
+                 alt="Gold沙漠 safari" 
+                 width="400" 
+                 height="300"
+                 onerror="this.style.display='none'; this.parentElement.classList.add('image-missing');">
+          </div>
+          <h3>Gold沙丘 retreat</h3>
+          <p>Falconry & champagne · Desert luxury</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+     <div class="social-links">
+  <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a> 
+  <a href="#" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a> 
+  <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
+    <p style="margin-top:1rem">© 2026 DUbaiQuest — ultra luxury travel</p>
+  </footer>
+
+  <script>
+    window.toggleMenu = () => document.getElementById('navMenu').classList.toggle('active');
+
+    // Fade observer
+    const faders = document.querySelectorAll('.fade-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '20px' });
+    faders.forEach(el => observer.observe(el));
+
+    // Close menu on nav click
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        document.getElementById('navMenu').classList.remove('active');
+      });
+    });
+
+    // Image error handling
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = document.querySelectorAll('.card-image img');
+      images.forEach(img => {
+        img.addEventListener('error', function() {
+          this.style.display = 'none';
+          this.parentElement.classList.add('image-missing');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

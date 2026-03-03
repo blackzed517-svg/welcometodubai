@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DUbaiQuest — contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-dark: #0f0f0f; --bg-card: #1a1a1a; --yellow-glow: #ffd700;
+      --yellow-soft: #ffed4e; --text-light: #f5f5f5; --text-muted: #b0b0b0;
+      --shadow-glow: 0 0 30px rgba(255,215,0,0.5);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+    }
+    .glass {
+      background: rgba(26,26,26,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,215,0,0.15);
+    }
+    .logo {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--yellow-glow), var(--yellow-soft));
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+      text-shadow: var(--shadow-glow);
+    }
+    .navbar {
+      position: fixed; top: 1rem; left: 50%; transform: translateX(-50%);
+      width: 90%; max-width: 1300px; padding: 1rem 2.5rem;
+      border-radius: 60px; z-index: 1000;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-menu { display: flex; gap: 3rem; list-style: none; }
+    .nav-link {
+      color: var(--text-light); text-decoration: none; font-weight: 600;
+      padding: 0.5rem 0; position: relative;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0%;
+      height: 2px; background: var(--yellow-glow); box-shadow: var(--shadow-glow);
+      transition: width 0.2s;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .hamburger {
+      display: none; font-size: 2.5rem; background: transparent;
+      border: none; color: var(--yellow-glow); cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed; top: 80px; left: 0; width: 100%;
+        background: rgba(26,26,26,0.98); backdrop-filter: blur(20px);
+        flex-direction: column; align-items: center; gap: 2rem;
+        padding: 2rem 0; transform: translateY(-150%);
+        transition: transform 0.4s ease-out;
+        border-bottom: 2px solid var(--yellow-glow);
+        box-shadow: var(--shadow-glow); z-index: 999;
+      }
+      .nav-menu.active { transform: translateY(0); }
+      .hamburger { display: block; }
+      .navbar { padding: 1rem 1.8rem; }
+    }
+    main { padding-top: 100px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+    /* sequential popup bursts */
+    .pop-item {
+      opacity: 0; transform: scale(0.8);
+      animation: popIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards;
+    }
+    .pop-delay-1 { animation-delay: 0.2s; }
+    .pop-delay-2 { animation-delay: 0.4s; }
+    .pop-delay-3 { animation-delay: 0.6s; }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* 3D form tilt on hover */
+    .form-3d {
+      perspective: 1200px;
+    }
+    .contact-form {
+      background: var(--bg-card); padding: 2.5rem; border-radius: 32px;
+      border: 1px solid rgba(255,215,0,0.2); box-shadow: 0 25px 40px -10px black;
+      transition: transform 0.15s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .contact-form:hover {
+      transform: rotateX(2deg) rotateY(2deg) scale(1.01);
+    }
+    .input-field {
+      width: 100%; padding: 1rem; margin: 1rem 0; background: #2a2a2a;
+      border: 1px solid #444; border-radius: 40px; color: white;
+      font-size: 1rem; transition: all 0.2s;
+    }
+    .input-field:focus {
+      outline: none; border-color: var(--yellow-glow);
+      box-shadow: 0 0 20px var(--yellow-glow), inset 0 0 5px #ffd700;
+    }
+    /* pulsing glow button */
+    .btn-pulse {
+      background: transparent; border: 2px solid var(--yellow-glow);
+      color: var(--yellow-glow); padding: 1rem 3rem; border-radius: 60px;
+      font-weight: 700; font-size: 1.2rem; cursor: pointer;
+      box-shadow: 0 0 15px rgba(255,215,0,0.3);
+      animation: softPulse 2s infinite;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .btn-pulse:hover {
+      background: var(--yellow-glow); color: black;
+      box-shadow: 0 0 50px var(--yellow-glow);
+      animation: none;
+      transform: scale(1.02);
+    }
+    @keyframes softPulse {
+      0% { box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+      50% { box-shadow: 0 0 40px rgba(255,215,0,0.9); }
+      100% { box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+    }
+
+    /* Map styling */
+    .map-placeholder {
+      width: 100%;
+      height: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      border: 2px solid #ffd700;
+    }
+    
+    .map-placeholder iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    footer {
+      background: #0a0a0a; border-top: 1px solid rgba(255,215,0,0.2);
+      padding: 2rem; text-align: center; color: var(--text-muted); margin-top: 4rem;
+    }
+    .social-links a {
+      color: var(--yellow-soft); font-size: 1.6rem; margin: 0 0.75rem;
+      transition: all 0.2s; display: inline-block;
+      text-decoration: none;
+    }
+    .social-links a:hover { transform: translateY(-4px) scale(1.1); text-shadow: var(--shadow-glow); }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar glass">
+      <div class="logo">DUbaiQuest</div>
+      <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/HTML/home.htm" class="nav-link">Home</a></li>
+        <li><a href="/HTML/about.htm" class="nav-link">About</a></li>
+        <li><a href="/HTML/contact.htm" class="nav-link active">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1 class="pop-item pop-delay-1" style="font-size:3.5rem;">Reserve your wonder</h1>
+
+      <!-- map placeholder pop 2 -->
+      <div class="map-placeholder pop-item pop-delay-2">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28908.384151608694!2d55.11929969725279!3d25.08330402816298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6b5402c126e3%3A0xb9511e6655c46d7c!2sDubai%20Marina%20-%20Dubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2stz!4v1772448058393!5m2!1sen!2stz" width="100%" height="100%" loading="lazy"></iframe>
+      </div>
+
+      <!-- 3D form pop 3 -->
+      <div class="form-3d pop-item pop-delay-3">
+        <form class="contact-form" id="luxuryForm" action="#" method="post">
+          <h2 style="color:var(--yellow-glow); margin-bottom:1rem;">Plan your quest</h2>
+          <input type="text" class="input-field" placeholder="Full name" aria-label="Name" required>
+          <input type="email" class="input-field" placeholder="Email address" aria-label="Email" required>
+          <textarea class="input-field" rows="3" placeholder="Your dream itinerary..."></textarea>
+          <button type="button" class="btn-pulse" onclick="confirmPlan()">✨ Send request</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="social-links">
+  <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a> 
+  <a href="#" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a> 
+  <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+</div>
+    <p style="margin-top:1rem">© 2026 DUbaiQuest — ultra luxury travel</p>
+  </footer>
+
+  <script>
+    function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click',()=>{
+      document.getElementById('navMenu').classList.remove('active');
+    }));
+
+    function confirmPlan() {
+      alert("Trip planned! ✨ Your luxury journey awaits.");
+    }
+  </script>
+</body>
+</html>

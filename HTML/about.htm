@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DUbaiQuest — about · luxury refined</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-dark: #0f0f0f; --bg-card: #1a1a1a; --yellow-glow: #ffd700;
+      --yellow-soft: #ffed4e; --text-light: #f5f5f5; --text-muted: #b0b0b0;
+      --shadow-glow: 0 0 30px rgba(255,215,0,0.5);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      overflow-x: hidden;
+      animation: zoomOutLoad 1.5s ease-out forwards;
+    }
+    @keyframes zoomOutLoad {
+      0% { opacity: 0.2; transform: scale(1.5); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .glass {
+      background: rgba(26,26,26,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,215,0,0.15);
+    }
+    .logo {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--yellow-glow), var(--yellow-soft));
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+      text-shadow: var(--shadow-glow);
+    }
+    .navbar {
+      position: fixed; top: 1rem; left: 50%; transform: translateX(-50%);
+      width: 90%; max-width: 1300px; padding: 1rem 2.5rem;
+      border-radius: 60px; z-index: 1000;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-menu { display: flex; gap: 3rem; list-style: none; }
+    .nav-link {
+      color: var(--text-light); text-decoration: none; font-weight: 600;
+      padding: 0.5rem 0; position: relative;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0%;
+      height: 2px; background: var(--yellow-glow); box-shadow: var(--shadow-glow);
+      transition: width 0.2s;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .hamburger {
+      display: none; font-size: 2.5rem; background: transparent;
+      border: none; color: var(--yellow-glow); cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed; top: 80px; left: 0; width: 100%;
+        background: rgba(26,26,26,0.98); backdrop-filter: blur(20px);
+        flex-direction: column; align-items: center; gap: 2rem;
+        padding: 2rem 0; transform: translateY(-150%);
+        transition: transform 0.4s ease-out;
+        border-bottom: 2px solid var(--yellow-glow);
+        box-shadow: var(--shadow-glow); z-index: 999;
+      }
+      .nav-menu.active { transform: translateY(0); }
+      .hamburger { display: block; }
+      .navbar { padding: 1rem 1.8rem; }
+    }
+    main { padding-top: 120px; }
+    .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
+
+    /* 3D rotating cards with polished image fit */
+    .card-3d-wrap {
+      perspective: 1800px;
+      margin: 0;
+    }
+    .card-3d {
+      background: var(--bg-card); border-radius: 28px; padding: 1.8rem 1.8rem 2rem 1.8rem;
+      border: 1px solid rgba(255,215,0,0.2); box-shadow: 0 20px 30px -10px black;
+      transition: transform 0.25s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+      height: 100%;
+      display: flex; flex-direction: column;
+    }
+    .card-3d:hover {
+      transform: rotateX(4deg) rotateY(8deg) scale(1.02);
+      box-shadow: 0 30px 40px -10px rgba(255,215,0,0.3);
+    }
+    /* image container – perfect grid fit */
+    .card-image {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #2c2c2c;
+      margin-bottom: 1.2rem;
+      border: 1px solid rgba(255,215,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .card-3d:hover .card-image img {
+      transform: scale(1.05);
+    }
+    /* fallback placeholder when image fails to load */
+    .card-image img[src=""], 
+    .card-image img:not([src]), 
+    .card-image img[src="#"],
+    .card-image img.error {
+      display: none;
+    }
+    .card-image:has(img[src=""]),
+    .card-image:has(img:not([src])),
+    .card-image:has(img[src="#"]),
+    .card-image img.error + * {
+      position: relative;
+    }
+    .card-image:has(img[src=""])::before,
+    .card-image:has(img:not([src]))::before,
+    .card-image:has(img[src="#"])::before {
+      content: "✨ Image not found";
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      opacity: 0.7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      background: #2c2c2c;
+    }
+
+    h3 { font-size: 1.6rem; margin-bottom: 0.2rem; letter-spacing: -0.02em; }
+    .card-3d p { color: var(--text-muted); font-weight: 400; }
+
+    /* grid system: clean, organized */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    @media (max-width: 640px) {
+      .grid-cards { grid-template-columns: 1fr; }
+    }
+
+    /* parallax skyline (stylized) */
+    .parallax-dubai {
+      background: linear-gradient(transparent 30%, rgba(255,215,0,0.07)), 
+                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400"><rect width="1200" height="400" fill="%231a1a1a"/><path d="M0,350 L150,200 L250,280 L350,120 L480,260 L600,180 L730,300 L850,220 L1000,280 L1150,150 L1200,180 L1200,400 L0,400 Z" fill="%23ffd700" opacity="0.15"/><circle cx="200" cy="100" r="8" fill="%23ffd700" opacity="0.3"/><circle cx="900" cy="80" r="12" fill="%23ffed4e" opacity="0.2"/></svg>');
+      background-size: cover; background-position: center 70%;
+      background-attachment: fixed; 
+      height: 240px; border-radius: 40px;
+      margin: 3rem 0; border: 1px solid rgba(255,215,0,0.2);
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+    }
+
+    /* staggered text reveals */
+    .stagger-text { opacity: 0; transform: translateX(-20px); animation: staggerFade 0.5s forwards; }
+    .stagger-item1 { animation-delay: 0.1s; }
+    .stagger-item2 { animation-delay: 0.3s; }
+    .stagger-item3 { animation-delay: 0.5s; }
+    @keyframes staggerFade { to { opacity: 1; transform: translateX(0); } }
+
+    /* headline layout */
+    h1 { font-size: clamp(2.8rem, 8vw, 4rem); font-weight: 700; line-height: 1.1; }
+    h2 { font-size: 2.5rem; font-weight: 600; }
+    .lead-text { color:var(--text-muted); max-width:800px; font-size:1.2rem; margin-top:0.5rem; }
+
+    footer {
+      background: #0a0a0a; border-top: 1px solid rgba(255,215,0,0.2);
+      padding: 2rem; text-align: center; color: var(--text-muted); margin-top: 4rem;
+    }
+    .social-links a {
+      color: var(--yellow-soft); font-size: 1.6rem; margin: 0 0.75rem;
+      transition: all 0.2s; display: inline-block;
+      text-decoration: none;
+    }
+    .social-links a:hover { transform: translateY(-4px) scale(1.1); text-shadow: var(--shadow-glow); }
+
+    /* image error handling */
+    .img-error-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      background: #2c2c2c;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar glass">
+      <div class="logo">DUbaiQuest</div>
+      <button class="hamburger" aria-label="Menu" onclick="toggleMenu()">☰</button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="/HTML/home.htm" class="nav-link">Home</a></li>
+        <li><a href="/HTML/about.htm" class="nav-link active">About</a></li>
+        <li><a href="/HTML/contact.htm" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- headline group -->
+      <div style="margin-bottom: 2rem;">
+        <h1 class="stagger-text stagger-item1">Where opulence lives</h1>
+        <p class="stagger-text stagger-item2 lead-text">Since 2010, DUbaiQuest has curated hyper‑exclusive journeys — every detail orchestrated for the few.</p>
+      </div>
+
+      <!-- Image Grid Cards - FIXED VERSION -->
+      <div class="grid-cards">
+        <!-- Card 1 - Royal Suite -->
+        <div class="card-3d-wrap">
+          <div class="card-3d">
+            <div class="card-image">
+              <img src="/images/royalsuit.jpg.jpg" 
+                   alt="Royal suite helipad view" 
+                   width="400" 
+                   height="300"
+                   onerror="this.style.display='none'; this.parentElement.classList.add('image-missing');">
+            </div>
+            <h3>Royal bridge suite</h3>
+            <p>Your private helipad · burj view</p>
+          </div>
+        </div>
+
+        <!-- Card 2 - Island Escape -->
+        <div class="card-3d-wrap">
+          <div class="card-3d">
+            <div class="card-image">
+              <img src="/images/island.jpg.jpg"
+                   alt="Private island escape" 
+                   width="400" 
+                   height="300"
+                   onerror="this.style.display='none'; this.parentElement.classList.add('image-missing');">
+            </div>
+            <h3>Private island escape</h3>
+            <p>Butler & yacht · world islands</p>
+          </div>
+        </div>
+      </div>
+
+  
+      <div class="parallax-dubai" aria-label="Dubai skyline at dusk" title="Dubai skyline"></div>
+
+      <div style="margin: 2.5rem 0 3rem 0; display: flex; flex-direction: column; gap: 0.6rem;">
+        <h2 class="stagger-text stagger-item3" style="font-size:2.8rem;">Excellence since 2010</h2>
+        <p class="stagger-text stagger-item1" style="color:var(--text-muted); font-size:1.4rem;">Recognised by World Travel Awards 2025</p>
+        <p class="stagger-text stagger-item2" style="color:var(--text-muted); max-width: 700px;">The only operator trusted by royalty, athletes and visionaries. Every quest is bespoke.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="social-links">
+  <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a> 
+  <a href="#" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a> 
+  <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+</div>
+    <p style="margin-top:1rem">© 2026 DUbaiQuest — ultra luxury travel</p>
+  </footer>
+
+  <script>
+    function toggleMenu() { 
+      document.getElementById('navMenu').classList.toggle('active'); 
+    }
+    
+    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click',()=>{
+      document.getElementById('navMenu').classList.remove('active');
+    }));
+
+    // Add error handling for images
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = document.querySelectorAll('.card-image img');
+      images.forEach(img => {
+        img.addEventListener('error', function() {
+          this.style.display = 'none';
+          this.parentElement.classList.add('image-missing');
+          // Add fallback text
+          const fallback = document.createElement('div');
+          fallback.className = 'img-error-fallback';
+          fallback.textContent = '✨ Image coming soon';
+          if (!this.parentElement.querySelector('.img-error-fallback')) {
+            this.parentElement.appendChild(fallback);
+          }
+        });
+      });
+    });
+  </script>
+
+  <!-- Add this small style for the fallback -->
+  <style>
+    .image-missing {
+      position: relative;
+      background: #2c2c2c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-missing::before {
+      content: "Exclusive visual coming soon";
+      color: #b0b0b0;
+      font-size: 0.9rem;
+      text-align: center;
+      opacity: 0.8;
+    }
+    .img-error-fallback {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      background: #2c2c2c;
+      color: #b0b0b0;
+      font-size: 0.9rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .card-image {
+      position: relative;
+    }
+  </style>
+</body>
+</html>
